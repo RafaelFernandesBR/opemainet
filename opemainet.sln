@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "opemainet", "opemainet\opemainet.csproj", "{3B96C186-C977-4403-9A71-D3450CA86381}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{B34474A6-E61A-4AEF-89EC-499888CC3B28}"
+	ProjectSection(SolutionItems) = preProject
+		dockerfile = dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B96C186-C977-4403-9A71-D3450CA86381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B96C186-C977-4403-9A71-D3450CA86381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B96C186-C977-4403-9A71-D3450CA86381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B96C186-C977-4403-9A71-D3450CA86381}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {891CEEF9-6EA1-4D0D-BE17-32F3547D6626}
+	EndGlobalSection
+EndGlobal
