@@ -1,7 +1,4 @@
-﻿using OpenAI.Models;
-using OpenAI;
-using System.Runtime.InteropServices;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -12,7 +9,6 @@ public class Program
     private static async Task Main(string[] args)
     {
         var botClient = new TelegramBotClient(Environment.GetEnvironmentVariable("tokem"));
-        var api = new OpenAIClient(new OpenAIAuthentication(Environment.GetEnvironmentVariable("opemAItokem")));
 
         using var cts = new CancellationTokenSource();
 
@@ -76,9 +72,8 @@ public class Program
                     await MsgSendAsync(chatId, "Bem-vindo ao meu bot!", update, cancellationToken);
                     break;
                 default:
-                    var result = await api.CompletionsEndpoint.CreateCompletionAsync(messageText, temperature: 0.7, max_tokens: 3000, model: Model.Davinci);
-                    string n = result.ToString();
-                    await MsgSendAsync(chatId, n, update, cancellationToken);
+                    string get = await Control.OpenAiControl.GetSpeakAsync(messageText);
+                    await MsgSendAsync(chatId, get, update, cancellationToken);
                     break;
             }
         }
