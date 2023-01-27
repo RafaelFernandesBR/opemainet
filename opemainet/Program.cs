@@ -8,7 +8,7 @@ public class Program
 {
     private static async Task Main(string[] args)
     {
-        var bot = new Bot("1820018763:AAHTTC5m_AvjaGoo8_sinIfTZ0HHRW3HK2c");
+        var bot = new Bot(Environment.GetEnvironmentVariable("tokem"));
         bot.Start();
 
         var messageHandler = new MessageHandler();
