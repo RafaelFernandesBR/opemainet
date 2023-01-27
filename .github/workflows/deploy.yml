@@ -1,0 +1,33 @@
+name: Deploy
+ 
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+ 
+jobs:
+  build:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - uses: actions/checkout@v1
+ 
+    - name: Executing remote command
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        USERNAME: ${{ secrets.USERNAME }}
+        PORT: ${{ secrets.PORT }}
+        KEY: ${{ secrets.SSHKEY }}
+        script: |
+            cd ./repo/opemainet/
+            git pull origin main
+            docker stop tbotnet
+            docker rm tbotnet
+            docker build -t tbotnetimg .
+            docker run --name tbotnet --restart=on-failure -d tbotnetimg
+            docker logs tbotnet
