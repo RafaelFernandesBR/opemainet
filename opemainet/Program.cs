@@ -5,7 +5,7 @@ public class Program
 {
     private static async Task Main(string[] args)
     {
-        var bot = new Bot(Environment.GetEnvironmentVariable("tokem"));
+        var bot = new Bot(Environment.GetEnvironmentVariable("tokem"), LoggerConfig.CreateLogger());
         bot.Start();
 
         // Handle application shutdown

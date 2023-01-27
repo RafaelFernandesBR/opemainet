@@ -1,15 +1,18 @@
 ﻿using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Serilog;
 
 namespace Control;
 public class MessageHandler
 {
     private OpenAiControl _control;
+    private readonly ILogger _logger;
 
-    public MessageHandler()
+    public MessageHandler(ILogger logger)
     {
-        _control = new OpenAiControl();
+        _control = new OpenAiControl(logger);
+        _logger = logger;
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -31,7 +34,7 @@ public class MessageHandler
                     text: "Welcome to my bot!");
                 break;
             default:
-                string response = await Control.OpenAiControl.GetSpeakAsync(messageText);
+                string response = await _control.GetSpeakAsync(messageText);
                 await botClient.SendTextMessageAsync(
                     chatId: chatId,
                     text: response);

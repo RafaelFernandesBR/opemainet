@@ -1,11 +1,19 @@
 ﻿using OpenAI;
 using OpenAI.Models;
+using Serilog;
 using System.Diagnostics;
 
 namespace Control;
 public class OpenAiControl
 {
-    public static async Task<string> GetSpeakAsync(string speak)
+    private readonly ILogger _logger;
+
+    public OpenAiControl(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task<string> GetSpeakAsync(string speak)
     {
         try
         {
@@ -17,13 +25,13 @@ public class OpenAiControl
             string n = result.ToString();
 
             stopwatch.Stop();
-            Console.WriteLine("Tempo de execução: {0}", stopwatch.Elapsed);
+            _logger.Information("Tempo de execução: {0}", stopwatch.Elapsed);
 
             return n;
         }
         catch (Exception ex)
         {
-            Console.WriteLine("Erro: " + ex.Message);
+            _logger.Error("Erro: " + ex.Message);
             return "erro, tente novamente mais tarde.";
         }
 

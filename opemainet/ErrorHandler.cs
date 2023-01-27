@@ -1,10 +1,18 @@
 ﻿using Telegram.Bot.Exceptions;
 using Telegram.Bot;
+using Serilog;
 
 namespace Control;
 public class ErrorHandler
 {
-    public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
+    private readonly ILogger _logger;
+
+    public ErrorHandler(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
     {
         var ErrorMessage = exception switch
         {
@@ -13,7 +21,7 @@ public class ErrorHandler
             _ => exception.ToString()
         };
 
-        Console.WriteLine(ErrorMessage);
+        _logger.Error(ErrorMessage);
         return Task.CompletedTask;
     }
 }
