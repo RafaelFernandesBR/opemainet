@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "opemainet", "opemainet\opem
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{B34474A6-E61A-4AEF-89EC-499888CC3B28}"
 	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
 		dockerfile = dockerfile
 	EndProjectSection
 EndProject
