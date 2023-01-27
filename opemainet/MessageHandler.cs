@@ -1,20 +1,27 @@
-﻿using Telegram.Bot.Types.Enums;
+﻿using opemainet.Commands;
+using opemainet;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using Serilog;
-using Telegram.Bots.Http;
-using Telegram.Bots;
+using Telegram.Bot.Types;
+using System.Windows.Input;
 
 namespace Control;
 public class MessageHandler
 {
-    private OpenAiControl _control;
+    private readonly IList<opemainet.Commands.ICommandBot> _commands;
     private readonly ILogger _logger;
+    private OpenAiControl _control;
 
     public MessageHandler(ILogger logger)
     {
-        _control = new OpenAiControl(logger);
+        _commands = new List<opemainet.Commands.ICommandBot>
+        {
+            new StartCommand()
+        };
+
         _logger = logger;
+        _control = new OpenAiControl(logger);
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -28,16 +35,16 @@ public class MessageHandler
         var chatId = update.Message.Chat.Id;
         var messageText = update.Message.Text;
 
-        switch (messageText)
+        var command = _commands.FirstOrDefault(x => x.Nome == messageText);
+        if (command == null)
         {
-            case "/start":
-                await SendMessageAsync(chatId, "Bem vindo ao bot!", update, botClient);
-                break;
-            default:
-                string response = await _control.GetSpeakAsync(messageText);
-                await SendMessageAsync(chatId, response, update, botClient);
-                break;
+            // comando não encontrado
+            string response = await _control.GetSpeakAsync(messageText);
+            await SendMessageAsync(chatId, response, update, botClient);
+            return;
         }
+
+        command.Executar(botClient, chatId);
     }
 
     private async Task SendMessageAsync(long chatId, string text, Update update, ITelegramBotClient botClient)
@@ -54,5 +61,4 @@ public class MessageHandler
             _logger.Error(ex.Message);
         }
     }
-
 }
