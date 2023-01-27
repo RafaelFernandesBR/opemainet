@@ -1,7 +1,6 @@
 ﻿using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
 
 namespace Control;
 public class Bot
@@ -36,18 +35,4 @@ public class Bot
         _logger.Debug($"Start listening for @{me.Username}");
     }
 
-    public async Task SendMessageAsync(long chatId, string text, Update update)
-    {
-        try
-        {
-            await _botClient.SendTextMessageAsync(
-            chatId: chatId,
-            text: text,
-            replyToMessageId: update.Message.MessageId);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex.Message);
-        }
-    }
 }

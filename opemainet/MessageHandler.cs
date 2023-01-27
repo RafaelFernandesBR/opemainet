@@ -2,6 +2,8 @@
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Serilog;
+using Telegram.Bots.Http;
+using Telegram.Bots;
 
 namespace Control;
 public class MessageHandler
@@ -29,16 +31,28 @@ public class MessageHandler
         switch (messageText)
         {
             case "/start":
-                await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: "Welcome to my bot!");
+                await SendMessageAsync(chatId, "Bem vindo ao bot!", update, botClient);
                 break;
             default:
                 string response = await _control.GetSpeakAsync(messageText);
-                await botClient.SendTextMessageAsync(
-                    chatId: chatId,
-                    text: response);
+                await SendMessageAsync(chatId, response, update, botClient);
                 break;
         }
     }
+
+    private async Task SendMessageAsync(long chatId, string text, Update update, ITelegramBotClient botClient)
+    {
+        try
+        {
+            await botClient.SendTextMessageAsync(
+            chatId: chatId,
+            text: text,
+            replyToMessageId: update.Message.MessageId);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(ex.Message);
+        }
+    }
+
 }
