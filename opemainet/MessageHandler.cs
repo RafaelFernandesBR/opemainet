@@ -1,10 +1,8 @@
 ﻿using opemainet.Commands;
-using opemainet;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Serilog;
 using Telegram.Bot.Types;
-using System.Windows.Input;
 
 namespace Control;
 public class MessageHandler
@@ -35,19 +33,26 @@ public class MessageHandler
         var chatId = update.Message.Chat.Id;
         var messageText = update.Message.Text;
 
-        var command = _commands.FirstOrDefault(x => x.Nome == messageText);
-        if (command == null)
+        if (!messageText.StartsWith("/"))
         {
-            // comando não encontrado
+            // not a command, handle as normal message
             string response = await _control.GetSpeakAsync(messageText);
             await SendMessageAsync(chatId, response, update, botClient);
+            return;
+        }
+
+        var commandName = messageText.Split(" ")[0];
+        var command = _commands.FirstOrDefault(x => x.Nome == commandName);
+        if (command == null)
+        {
+            // command not found
             return;
         }
 
         command.Executar(botClient, chatId);
     }
 
-    private async Task SendMessageAsync(long chatId, string text, Update update, ITelegramBotClient botClient)
+    private async Task SendMessageAsync(long chatId, string text, Telegram.Bot.Types.Update update, ITelegramBotClient botClient)
     {
         try
         {
