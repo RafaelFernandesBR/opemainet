@@ -28,6 +28,6 @@ jobs:
             git pull origin master
             docker stop tbotnet
             docker rm tbotnet
-            docker build --build-arg tokem=${{ ecrets.tokem }} --build-arg opemAItokem=${{ secrets.openAiTokem }} -t tbotnetimg .
+            docker build --build-arg tokem=${{ secrets.tokem }} --build-arg opemAItokem=${{ secrets.openAiTokem }} -t tbotnetimg .
             docker run --name tbotnet --restart=on-failure -d tbotnetimg
             docker logs tbotnet
