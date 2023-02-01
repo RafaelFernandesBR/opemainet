@@ -35,8 +35,10 @@ public class MessageHandler
 
         if (!messageText.StartsWith("/"))
         {
-            // not a command, handle as normal message
+            await SendTypingAsync(chatId, update, botClient);
+
             string response = await _control.GetSpeakAsync(messageText);
+
             await SendMessageAsync(chatId, response, update, botClient);
             return;
         }
@@ -52,7 +54,7 @@ public class MessageHandler
         command.Executar(botClient, chatId);
     }
 
-    private async Task SendMessageAsync(long chatId, string text, Telegram.Bot.Types.Update update, ITelegramBotClient botClient)
+    private async Task SendMessageAsync(long chatId, string text, Update update, ITelegramBotClient botClient)
     {
         try
         {
@@ -66,4 +68,19 @@ public class MessageHandler
             _logger.Error(ex.Message);
         }
     }
+
+    private async Task SendTypingAsync(long chatId, Update update, ITelegramBotClient botClient)
+    {
+        try
+        {
+            await botClient.SendChatActionAsync(
+    chatId: chatId,
+    chatAction: ChatAction.Typing);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Erro: {ex.Message}");
+        }
+    }
+
 }
