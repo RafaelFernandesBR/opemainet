@@ -24,9 +24,6 @@ public class MessageHandler
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        if (update.Message.Chat.Type == ChatType.Group)
-            return;
-
         if (update.Type != UpdateType.Message)
             return;
 
