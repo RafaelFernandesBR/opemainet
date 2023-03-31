@@ -21,13 +21,12 @@ public class OpenAiControl
             stopwatch.Start();
 
             var api = new OpenAI.OpenAIClient(new OpenAIAuthentication(Environment.GetEnvironmentVariable("opemAItokem")));
-            var result = await api.CompletionsEndpoint.CreateCompletionAsync(speak, temperature: 0.7, max_tokens: 3000, model: Model.Davinci);
-            string n = result.ToString();
+            var result = await api.CompletionsEndpoint.CreateCompletionAsync(speak, temperature: 0.9, maxTokens: 3500, model: Model.Davinci);
 
             stopwatch.Stop();
             _logger.Information("Tempo de execução: {0}", stopwatch.Elapsed);
 
-            return n;
+            return result.ToString();
         }
         catch (Exception ex)
         {
