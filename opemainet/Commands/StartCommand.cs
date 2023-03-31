@@ -6,10 +6,10 @@ public class StartCommand : ICommandBot
 {
     public string Nome => "/start";
 
-    public void Executar(ITelegramBotClient botClient, long chatId, Update? update = null)
+    public async void Executar(ITelegramBotClient botClient, long chatId, Update? update = null)
     {
         string text = "Bem vindo ao bot!";
-        botClient.SendTextMessageAsync(chatId, text);
+        await botClient.SendTextMessageAsync(chatId, text);
     }
 
 }
