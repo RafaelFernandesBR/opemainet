@@ -11,16 +11,16 @@ public class Bot
     private readonly ILogger _logger;
     private ErrorHandler _ErrorHandler;
 
-    public Bot(string token, ILogger logger)
+    public Bot(TelegramBotClient telegramBotClient, ILogger logger, OpenAiControl control)
     {
         _logger = logger;
-        _botClient = new TelegramBotClient(token);
+        _botClient = telegramBotClient;
         _receiverOptions = new ReceiverOptions
         {
             AllowedUpdates = { }
         };
 
-        _messageHandler = new MessageHandler(logger);
+        _messageHandler = new MessageHandler(logger, control);
         _ErrorHandler = new ErrorHandler(logger);
     }
 

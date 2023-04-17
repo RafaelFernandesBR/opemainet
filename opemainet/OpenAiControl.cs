@@ -3,36 +3,37 @@ using OpenAI.Models;
 using Serilog;
 using System.Diagnostics;
 
-namespace Control;
-public class OpenAiControl
+namespace Control
 {
-    private readonly ILogger _logger;
-
-    public OpenAiControl(ILogger logger)
+    public class OpenAiControl
     {
-        _logger = logger;
-    }
+        private readonly ILogger _logger;
 
-    public async Task<string> GetSpeakAsync(string speak)
-    {
-        try
+        public OpenAiControl(ILogger logger)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            var api = new OpenAI.OpenAIClient(new OpenAIAuthentication(Environment.GetEnvironmentVariable("opemAItokem")));
-            var result = await api.CompletionsEndpoint.CreateCompletionAsync(speak, temperature: 0.9, maxTokens: 3500, model: Model.Davinci);
-
-            stopwatch.Stop();
-            _logger.Information("Tempo de execução: {0}", stopwatch.Elapsed);
-
-            return result.ToString();
-        }
-        catch (Exception ex)
-        {
-            _logger.Error("Erro: " + ex.Message);
-            return "erro, tente novamente mais tarde.";
+            _logger = logger;
         }
 
+        public async Task<string> GetSpeakAsync(string speak)
+        {
+            try
+            {
+                var stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                var api = new OpenAIClient(new OpenAIAuthentication(Environment.GetEnvironmentVariable("opemAItokem")));
+                var result = await api.CompletionsEndpoint.CreateCompletionAsync(speak, temperature: 0.9, maxTokens: 3500, model: Model.Davinci);
+
+                stopwatch.Stop();
+                _logger.Information("Tempo de execução: {0}", stopwatch.Elapsed);
+
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Erro: " + ex.Message);
+                return "erro, tente novamente mais tarde.";
+            }
+        }
     }
 }

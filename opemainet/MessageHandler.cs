@@ -9,9 +9,9 @@ public class MessageHandler
 {
     private readonly IList<opemainet.Commands.ICommandBot> _commands;
     private readonly ILogger _logger;
-    private OpenAiControl _control;
+    private readonly OpenAiControl _control;
 
-    public MessageHandler(ILogger logger)
+    public MessageHandler(ILogger logger, OpenAiControl control)
     {
         _commands = new List<opemainet.Commands.ICommandBot>
         {
@@ -19,7 +19,7 @@ public class MessageHandler
         };
 
         _logger = logger;
-        _control = new OpenAiControl(logger);
+        _control = control;
     }
 
     public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)

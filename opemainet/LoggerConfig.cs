@@ -1,5 +1,5 @@
-﻿using Serilog.Sinks.SystemConsole.Themes;
-using Serilog;
+﻿using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 public static class LoggerConfig
 {
