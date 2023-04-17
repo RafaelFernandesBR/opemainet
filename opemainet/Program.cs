@@ -22,8 +22,7 @@ namespace OpenAiNet
                 })
                 .Build();
 
-            var bot = host.Services.GetRequiredService<Bot>();
-            bot.Start();
+            host.Services.GetRequiredService<Bot>().Start();
 
             // Handle application shutdown
             var cancellationTokenSource = new CancellationTokenSource();
